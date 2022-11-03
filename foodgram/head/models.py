@@ -52,6 +52,9 @@ class Recipe(models.Model):
         verbose_name = 'Рецепт'
         verbose_name_plural = 'Рецепты'
 
+    def __str__(self):
+        return self.name
+
 
 class Ingredient(models.Model):
     """Модель ингредиента."""
@@ -72,6 +75,9 @@ class Ingredient(models.Model):
         """
         verbose_name = 'Ингредиент'
         verbose_name_plural = 'Ингредиенты'
+
+    def __str__(self):
+        return self.name
 
 
 class Tag(models.Model):
@@ -99,6 +105,9 @@ class Tag(models.Model):
         verbose_name = 'Тег'
         verbose_name_plural = 'Теги'
 
+    def __str__(self):
+        return self.name
+
 
 class IngredientRecipe(models.Model):
     """Промежуточная модель связи ингредиента и рецепта."""
@@ -125,6 +134,9 @@ class IngredientRecipe(models.Model):
         verbose_name = 'Ингредиент + рецепт'
         verbose_name_plural = 'Ингредиенты + рецепты'
 
+    def __str__(self):
+        return f'{self.ingredient} {self.recipe}'
+
 
 class TagRecipe(models.Model):
     """Промежуточная модель связи тега и рецепта."""
@@ -146,3 +158,6 @@ class TagRecipe(models.Model):
         """
         verbose_name = 'Тег + рецепт'
         verbose_name_plural = 'Теги + рецепты'
+
+    def __str__(self):
+        return f'{self.tag} {self.recipe}'
