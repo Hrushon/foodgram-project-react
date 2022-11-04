@@ -9,11 +9,22 @@ COEFF_ONE = 1
 class Recipe(models.Model):
     """Модель рецептов."""
 
+    tags = models.ManyToManyField(
+        'Tag',
+        through='TagRecipe',
+        verbose_name="Тег"
+    )
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         related_name="recipes",
         verbose_name="Автор"
+    )
+    ingredients = models.ManyToManyField(
+        'Ingredient',
+        through='IngredientRecipe',
+        through_fields=('recipe', 'ingredient'),
+        verbose_name="Ингредиенты"
     )
     name = models.CharField(
         max_length=200,
@@ -26,17 +37,6 @@ class Recipe(models.Model):
         )
     text = models.TextField(
         verbose_name="Описание"
-    )
-    ingredients = models.ManyToManyField(
-        'Ingredient',
-        through='IngredientRecipe',
-        through_fields=('recipe', 'ingredient'),
-        verbose_name="Ингредиенты"
-    )
-    tags = models.ManyToManyField(
-        'Tag',
-        through='TagRecipe',
-        verbose_name="Тег"
     )
     cooking_time = models.PositiveSmallIntegerField(
         verbose_name="Время приготовления (мин)",
@@ -161,3 +161,84 @@ class TagRecipe(models.Model):
 
     def __str__(self):
         return f'{self.tag} => {self.recipe}'
+
+
+class Subscription(models.Model):
+    """Модель подписки пользователя на автора."""
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='following',
+        verbose_name='Подписчик'
+    )
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='subscriber',
+        verbose_name='Подписываемый'
+    )
+
+    class Meta:
+        """
+        Добавляет русские названия в админке.
+        """
+        verbose_name = 'Подписка'
+        verbose_name_plural = 'Подписки'
+
+    def __str__(self):
+        return f'{self.user} => {self.author}'
+
+
+class ShoppingCart(models.Model):
+    """Модель cписка покупок."""
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='buy',
+        verbose_name='Пользователь'
+    )
+    recipe = models.ForeignKey(
+        Recipe,
+        on_delete=models.CASCADE,
+        related_name='buyer',
+        verbose_name='Рецепт'
+    )
+
+    class Meta:
+        """
+        Добавляет русские названия в админке.
+        """
+        verbose_name = 'Список покупок'
+        verbose_name_plural = 'Списки покупок'
+
+    def __str__(self):
+        return f'{self.user} => {self.recipe}'
+
+
+class Favorite(models.Model):
+    """Модель избранных рецептов."""
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='favorites',
+        verbose_name='Пользователь'
+    )
+    recipe = models.ForeignKey(
+        Recipe,
+        on_delete=models.CASCADE,
+        related_name='lover',
+        verbose_name='Рецепт'
+    )
+
+    class Meta:
+        """
+        Добавляет русские названия в админке.
+        """
+        verbose_name = 'Список избранных рецептов'
+        verbose_name_plural = 'Списки избранных рецептов'
+
+    def __str__(self):
+        return f'{self.user} => {self.recipe}'
