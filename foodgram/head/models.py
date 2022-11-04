@@ -3,8 +3,8 @@ from django.db import models
 
 from users.models import User
 
-
 COEFF_ONE = 1
+
 
 class Recipe(models.Model):
     """Модель рецептов."""
@@ -60,12 +60,12 @@ class Ingredient(models.Model):
     """Модель ингредиента."""
     
     name = models.CharField(
-        max_length=128,
+        max_length=200,
         verbose_name="Название",
         db_index=True
     )
     measurement_unit = models.CharField(
-        max_length=64,
+        max_length=200,
         verbose_name="Единица измерения"
     )
 
@@ -83,7 +83,7 @@ class Ingredient(models.Model):
 class Tag(models.Model):
     """Модель тегов."""
     name = models.CharField(
-        max_length=128,
+        max_length=200,
         verbose_name="Название",
         unique=True
     )
@@ -93,7 +93,7 @@ class Tag(models.Model):
         unique=True
     )
     slug = models.SlugField(
-        max_length=64,
+        max_length=200,
         verbose_name="Слаг",
         unique=True
     )
@@ -135,7 +135,7 @@ class IngredientRecipe(models.Model):
         verbose_name_plural = 'Ингредиенты + рецепты'
 
     def __str__(self):
-        return f'{self.ingredient} {self.recipe}'
+        return f'{self.ingredient} => {self.recipe}'
 
 
 class TagRecipe(models.Model):
@@ -160,4 +160,4 @@ class TagRecipe(models.Model):
         verbose_name_plural = 'Теги + рецепты'
 
     def __str__(self):
-        return f'{self.tag} {self.recipe}'
+        return f'{self.tag} => {self.recipe}'
