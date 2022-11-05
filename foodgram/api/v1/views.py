@@ -5,9 +5,11 @@ from head.models import (
     Recipe,
     Tag
 )
+from users.models import User
 from .serializers import (
     IngredientSerializer,
     RecipeSerializer,
+    RecipeCreateSerializer,
     TagSerializer
 )
 
@@ -15,6 +17,15 @@ from .serializers import (
 class RecipeViewSet(viewsets.ModelViewSet):
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
+
+    def get_serializer_class(self):
+        if self.action in ('list', 'retrieve'):
+            return RecipeSerializer
+        return RecipeCreateSerializer
+
+    def perform_create(self, serializer):
+        user = User.objects.get(id=1)
+        serializer.save(author=user) # self.request.user
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):

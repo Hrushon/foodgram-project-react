@@ -23,7 +23,6 @@ class Recipe(models.Model):
     ingredients = models.ManyToManyField(
         'Ingredient',
         through='IngredientRecipe',
-        through_fields=('recipe', 'ingredient'),
         verbose_name="Ингредиенты"
     )
     name = models.CharField(
@@ -45,7 +44,7 @@ class Recipe(models.Model):
 
     class Meta:
         """
-        Сортирует сообщения по id (сначала новые) 
+        Сортирует сообщения по id (сначала новые)
         и добавляет русские название в админке.
         """
         ordering = ('-id', )
@@ -58,7 +57,7 @@ class Recipe(models.Model):
 
 class Ingredient(models.Model):
     """Модель ингредиента."""
-    
+
     name = models.CharField(
         max_length=200,
         verbose_name="Название",
@@ -149,7 +148,7 @@ class TagRecipe(models.Model):
     recipe = models.ForeignKey(
         Recipe,
         on_delete=models.CASCADE,
-        verbose_name="Рецепт"        
+        verbose_name="Рецепт"
     )
 
     class Meta:
