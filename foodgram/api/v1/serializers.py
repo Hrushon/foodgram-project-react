@@ -3,11 +3,14 @@ import base64
 from django.core.files.base import ContentFile
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
+from rest_framework.validators import UniqueTogetherValidator
 
 from head.models import (
+    Favorite,
     Ingredient,
     IngredientRecipe,
     Recipe,
+    ShoppingCart,
     Tag,
     TagRecipe
 )
@@ -173,8 +176,11 @@ class RecipeSerializer(serializers.ModelSerializer):
         return user in obj.buyer.all()
 
 
-class FavoriteSerializer(serializers.ModelSerializer):
-    """Сериализатор для избранных рецептов."""
+class FavoriteShoppingSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для сериализации рецептов, находящися в списке 
+    избранного и списке покупок.
+    """
 
     class Meta:
         model = Recipe
@@ -189,3 +195,33 @@ class FavoriteSerializer(serializers.ModelSerializer):
             'image',
             'cooking_time'
         )
+
+
+class FavoriteCreateSerializer(serializers.ModelSerializer):
+    """Сериализатор для добавления рецепта в избранное."""
+
+    class Meta:
+        model = Favorite
+        fields = '__all__'
+
+        validators = [
+            UniqueTogetherValidator(
+                queryset=Favorite.objects.all(),
+                fields=('user', 'recipe')
+            )
+        ]
+
+
+class ShoppingCreateSerializer(serializers.ModelSerializer):
+    """Сериализатор для добавления рецепта в список покупок."""
+
+    class Meta:
+        model = ShoppingCart
+        fields = '__all__'
+
+        validators = [
+            UniqueTogetherValidator(
+                queryset=ShoppingCart.objects.all(),
+                fields=('user', 'recipe')
+            )
+        ]
