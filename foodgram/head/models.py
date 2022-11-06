@@ -12,33 +12,33 @@ class Recipe(models.Model):
     tags = models.ManyToManyField(
         'Tag',
         through='TagRecipe',
-        verbose_name="Тег"
+        verbose_name='Тег'
     )
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name="recipes",
-        verbose_name="Автор"
+        related_name='recipes',
+        verbose_name='Автор'
     )
     ingredients = models.ManyToManyField(
         'Ingredient',
         through='IngredientRecipe',
-        verbose_name="Ингредиенты"
+        verbose_name='Ингредиенты'
     )
     name = models.CharField(
         max_length=200,
         db_index=True,
-        verbose_name="Название"
+        verbose_name='Название'
     )
     image = models.ImageField(
         upload_to='recipes/images/',
-        verbose_name="Картинка"
+        verbose_name='Картинка'
         )
     text = models.TextField(
-        verbose_name="Описание"
+        verbose_name='Описание'
     )
     cooking_time = models.PositiveSmallIntegerField(
-        verbose_name="Время приготовления (мин)",
+        verbose_name='Время приготовления (мин)',
         validators=[MinValueValidator(COEFF_ONE)]
     )
 
@@ -60,12 +60,12 @@ class Ingredient(models.Model):
 
     name = models.CharField(
         max_length=200,
-        verbose_name="Название",
+        verbose_name='Название',
         db_index=True
     )
     measurement_unit = models.CharField(
         max_length=200,
-        verbose_name="Единица измерения"
+        verbose_name='Единица измерения'
     )
 
     class Meta:
@@ -83,17 +83,17 @@ class Tag(models.Model):
     """Модель тегов."""
     name = models.CharField(
         max_length=200,
-        verbose_name="Название",
+        verbose_name='Название',
         unique=True
     )
     color = models.CharField(
         max_length=7,
-        verbose_name="Цвет",
+        verbose_name='Цвет',
         unique=True
     )
     slug = models.SlugField(
         max_length=200,
-        verbose_name="Слаг",
+        verbose_name='Слаг',
         unique=True
     )
 
@@ -114,15 +114,15 @@ class IngredientRecipe(models.Model):
     ingredient = models.ForeignKey(
         Ingredient,
         on_delete=models.CASCADE,
-        verbose_name="Ингредиент"
+        verbose_name='Ингредиент'
     )
     recipe = models.ForeignKey(
         Recipe,
         on_delete=models.CASCADE,
-        verbose_name="Рецепт"
+        verbose_name='Рецепт'
     )
     amount = models.PositiveSmallIntegerField(
-        verbose_name="Количество",
+        verbose_name='Количество',
         validators=[MinValueValidator(COEFF_ONE)]
     )
 
@@ -143,12 +143,12 @@ class TagRecipe(models.Model):
     tag = models.ForeignKey(
         Tag,
         on_delete=models.CASCADE,
-        verbose_name="Тег"
+        verbose_name='Тег'
     )
     recipe = models.ForeignKey(
         Recipe,
         on_delete=models.CASCADE,
-        verbose_name="Рецепт"
+        verbose_name='Рецепт'
     )
 
     class Meta:

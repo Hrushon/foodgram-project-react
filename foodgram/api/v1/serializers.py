@@ -45,7 +45,7 @@ class IngredientSerializer(serializers.ModelSerializer):
 class IngredientRecipeSaveSerializer(serializers.Serializer):
     """Сериализатор для сохранения ингредиентов в рецепте."""
     id = serializers.IntegerField()
-    amount = serializers.IntegerField()
+    amount = serializers.IntegerField(min_value=1)
 
 
 class IngredientRecipeSerializer(serializers.ModelSerializer):
@@ -171,3 +171,21 @@ class RecipeSerializer(serializers.ModelSerializer):
     def get_is_in_shopping_cart(self, obj):
         user = self.context.get('request').user
         return user in obj.buyer.all()
+
+
+class FavoriteSerializer(serializers.ModelSerializer):
+    """Сериализатор для избранных рецептов."""
+
+    class Meta:
+        model = Recipe
+        fields = (
+            'id',
+            'name',
+            'image',
+            'cooking_time'
+        )
+        read_only_fields = (
+            'name',
+            'image',
+            'cooking_time'
+        )
