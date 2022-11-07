@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <style>
+      hr {
+       border: none;
+       background-color: black;
+       color: black;
+       height: 3px;
+      }
+      table {
+        width: 60%;
+        text-align: center;
+        border: 1px solid black;
+      }
+      td {
+        padding: 5px;
+      }
+      th {
+       padding: 5px;
+       border: 1px solid black;
+      }
+     </style>
+  </head>
+  <body>
+    <header>
+      <p align="center">
+        <font size="5" face="verdana"  color="red">
+          <b>Список покупок</b>
+        </font>
+      </p>
+    </header>
+    <main>
+      <font size="4" face="verdana">
+        <hr>
+          <p align="center">
+            <table align="center">
+              <tr>
+                <th>Название</th>
+                <th>Ед. изм.</th>
+                <th>Количество</th>
+              </tr>
+              {% for obj in context %}
+                <tr>
+                  <td>{{ context.recipe__ingredients__name }}</td>
+                  <td>{{ context.recipe__ingredients__measurement_unit }}</td>
+                  <td>{{ context.total|floatformat:"0" }}</td>
+                </tr>
+              {% endfor %}
+            </table>
+          </p>
+        <hr>
+      </font>
+    </main>
+    <footer>
+      <p align="center">
+        <font size="3" face="verdana">
+          Сервис 
+          <font color="#fa8e47">
+            "Foodgram"
+          </font><br>
+          Ваш "Продуктовый помощник" <br>
+          © {{ now "Y" }} Copyright
+        </font>
+      </p>
+    </footer>
+  </body>
