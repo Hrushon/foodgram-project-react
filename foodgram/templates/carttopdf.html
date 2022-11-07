@@ -2,7 +2,21 @@
 <html lang="ru">
   <head>
     <meta charset="utf-8">
-    <style>
+    <style type='text/css'>
+      @page {
+        size: A4;
+        margin: 1cm;
+        @frame footer {
+            -pdf-frame-content: footerContent;
+            bottom: 0cm;
+            margin-left: 2cm;
+            margin-right: 2cm;
+            height: 3cm;
+        }
+      }
+      body {
+        font-family: arial;
+      }
       hr {
        border: none;
        background-color: black;
@@ -26,13 +40,13 @@
   <body>
     <header>
       <p align="center">
-        <font size="5" face="verdana"  color="red">
+        <font size="5" color="red">
           <b>Список покупок</b>
         </font>
       </p>
     </header>
     <main>
-      <font size="4" face="verdana">
+      <font size="4">
         <hr>
           <p align="center">
             <table align="center">
@@ -53,16 +67,16 @@
         <hr>
       </font>
     </main>
-    <footer>
+    <div id="footerContent">
       <p align="center">
-        <font size="3" face="verdana">
+        <font size="3">
           Сервис 
           <font color="#fa8e47">
             "Foodgram"
           </font><br>
           Ваш "Продуктовый помощник" <br>
-          © {{ now "Y" }} Copyright
+          © {% now "Y" %} Copyright
         </font>
       </p>
-    </footer>
+    </div>
   </body>

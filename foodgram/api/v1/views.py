@@ -1,5 +1,7 @@
 from django.db.models import Avg
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
+from django.template.loader import render_to_string
 from rest_framework import mixins, serializers, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -10,6 +12,8 @@ from head.models import (
     Tag
 )
 from users.models import User
+
+from .html2pdf import html_to_pdf
 from .serializers import (
     FavoriteShoppingSerializer,
     FavoriteCreateSerializer,
@@ -40,11 +44,11 @@ class RecipeViewSet(viewsets.ModelViewSet):
     ) # permission_classes=(SelfEditUserOnlyPermission,)
     def download_shopping_cart(self, request):
         user = User.objects.get(id=1)  # user = User.objects.get(id=request.user)
-        cart = user.buy.values(
+        context = user.buy.values(
             'recipe__ingredients__name',
             'recipe__ingredients__measurement_unit'
         ).annotate(total=Avg('recipe__ingredientrecipe__amount'))
-
+        return html_to_pdf('carttopdf.html', {'context': context})
 
 
     @action(

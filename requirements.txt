@@ -1,5 +1,10 @@
 Django==2.2.19
 djangorestframework==3.12.4
+flake8==5.0.4
+mccabe==0.7.0
 Pillow==9.3.0
+pycodestyle==2.9.1
+pyflakes==2.5.0
 pytz==2022.6
 sqlparse==0.4.3
+xhtml2pdf==0.2.8
