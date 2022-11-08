@@ -1,9 +1,11 @@
+import os
+from django.conf import settings
 from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 
 
-def fetch_pdf_resources(uri, rel):
+def link_callback(uri, rel):
     if uri.find(settings.MEDIA_URL) != -1:
         path = os.path.join(
             settings.MEDIA_ROOT, uri.replace(settings.MEDIA_URL, '')
@@ -19,11 +21,13 @@ def fetch_pdf_resources(uri, rel):
 
 def html_to_pdf(template, context):
     response = HttpResponse(content_type="application/pdf")
-    response["Content-Disposition"] = 'filename="shopping_cart.pdf"'
+    response["Content-Disposition"] = 'filename="report.pdf"'
     template = get_template(template)
     html = template.render(context)
     pdf = pisa.CreatePDF(
-        html, dest=response, encoding="utf-8", link_callback=fetch_pdf_resources
+        html, dest=response,
+        encoding="utf-8",
+        link_callback=link_callback
     )
     if not pdf.err:
         return response
