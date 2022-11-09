@@ -3,6 +3,11 @@ from django.conf import settings
 from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+
+
+pdfmetrics.registerFont(TTFont('OpenSans-Medium', settings.STATIC_ROOT + '/fonts/OpenSans-Medium.ttf'))
 
 
 def link_callback(uri, rel):
