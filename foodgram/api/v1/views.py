@@ -5,6 +5,7 @@ from django.template.loader import render_to_string
 from rest_framework import mixins, serializers, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from djoser.views import UserViewSet
 
 from head.models import (
     Ingredient,
@@ -36,14 +37,13 @@ class RecipeViewSet(viewsets.ModelViewSet):
         return RecipeCreateSerializer
 
     def perform_create(self, serializer):
-        user = User.objects.get(id=1)
-        serializer.save(author=user) # self.request.user
+        serializer.save(author=self.request.user) # self.request.user
 
     @action(
         methods=['get'], detail=False,
     ) # permission_classes=(SelfEditUserOnlyPermission,)
     def download_shopping_cart(self, request):
-        user = User.objects.get(id=1)  # user = User.objects.get(id=request.user)
+        user = User.objects.get(id=request.user)  # user = User.objects.get(id=request.user)
         context = user.buy.values(
             'recipe__ingredients__name',
             'recipe__ingredients__measurement_unit'
@@ -55,7 +55,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         methods=['post', 'delete'], detail=True,
     ) # permission_classes=(SelfEditUserOnlyPermission,)
     def favorite(self, request, pk):
-        user = User.objects.get(id=1) # user = User.objects.get(id=request.user)
+        user = User.objects.get(id=request.user.id) # user = User.objects.get(id=request.user)
         recipe = self.get_object()
         if request.method == 'DELETE':
             instance = user.favorites.filter(recipe=recipe)
@@ -83,7 +83,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         methods=['post', 'delete'], detail=True,
     ) # permission_classes=(SelfEditUserOnlyPermission,)
     def shopping_cart(self, request, pk):
-        user = User.objects.get(id=1) # user = User.objects.get(id=request.user)
+        user = User.objects.get(id=request.user.id) # user = User.objects.get(id=request.user)
         recipe = self.get_object()
         if request.method == 'DELETE':
             instance = user.buy.filter(recipe=recipe)

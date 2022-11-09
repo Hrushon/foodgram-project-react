@@ -134,4 +134,4 @@ dmypy.json
 # папки со статикой и медиа
 foodgram/media/
 media/
-static/
+# static/

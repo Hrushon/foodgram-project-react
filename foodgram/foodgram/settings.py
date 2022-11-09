@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework.authtoken',
+    'djoser',
 ]
 
 MIDDLEWARE = [
@@ -135,3 +137,29 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'users.User'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
+
+DJOSER = {
+    # 'PASSWORD_RESET_CONFIRM_URL': '#/users/set_password',
+    # 'ACTIVATION_URL': '#/token/login/',
+    'SEND_ACTIVATION_EMAIL': False,
+    'LOGIN_FIELD': 'email',
+    'SERIALIZERS': {
+        'current_user': 'api.v1.serializers.UserSerializer',
+        'user_create': 'api.v1.serializers.CustomUserCreateSerializer',
+        'user': 'api.v1.serializers.UserSerializer',
+    },
+    'PERMISSIONS': {
+        'user': ['rest_framework.permissions.IsAuthenticated'],
+        'user_list': ['rest_framework.permissions.AllowAny'],
+    }
+}
+

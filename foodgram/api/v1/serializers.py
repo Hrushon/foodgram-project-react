@@ -2,6 +2,7 @@ import base64
 
 from django.core.files.base import ContentFile
 from django.shortcuts import get_object_or_404
+from djoser.serializers import UserCreateSerializer
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 
@@ -17,9 +18,16 @@ from head.models import (
 from users.models import User
 
 
+class CustomUserCreateSerializer(UserCreateSerializer):
+    """Сериализатор для регистрации пользователей."""
+    class Meta:
+        model = User
+        fields = ('email', 'username', 'first_name', 'last_name', 'password')
+
+
 class UserSerializer(serializers.ModelSerializer):
     """Сериализатор для пользователей."""
-#    is_subscribed = serializers.SerializerMethodField()
+    is_subscribed = serializers.SerializerMethodField()
 
     class Meta:
         model = User
@@ -29,12 +37,12 @@ class UserSerializer(serializers.ModelSerializer):
             'username',
             'first_name',
             'last_name',
-        #    'is_subscribed'
+            'is_subscribed'
         )
 
-    #def get_is_subscribed(self, obj):
-    #    user = self.context.get('request').user
-    #    return user in obj.following.all()
+    def get_is_subscribed(self, obj):
+        user = self.context['request'].user
+        return bool(obj.following.filter(user=user))
 
 
 class IngredientSerializer(serializers.ModelSerializer):
@@ -78,18 +86,20 @@ class Base64ImageField(serializers.ImageField):
         if isinstance(data, str) and data.startswith('data:image'):
             format, imgstr = data.split(';base64,')
             ext = format.split('/')[-1]
-
             data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
-
         return super().to_internal_value(data)
 
 
 class RecipeCreateSerializer(serializers.ModelSerializer):
     """Сериализатор для создания рецепта."""
+
     tags = serializers.PrimaryKeyRelatedField(
         many=True, queryset=Tag.objects.all()
     )
-    author = UserSerializer(read_only=True)
+    author = UserSerializer(
+        default=serializers.CurrentUserDefault(),
+        read_only=True
+    )
     ingredients = IngredientRecipeSaveSerializer(many=True)
     image = Base64ImageField()
 
@@ -99,7 +109,7 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
         read_only_fields = ('author', 'ingredients',)
 
     def to_representation(self, value):
-        return RecipeSerializer(value).data
+        return RecipeSerializer(value, context=self.context).data
 
     def create(self, validated_data):
         tags_list = validated_data.pop('tags')
@@ -143,6 +153,12 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
 
 class RecipeSerializer(serializers.ModelSerializer):
     """Сериализатор для списка рецептов."""
+
+    def __init__(self, *args, **kwargs):
+        super(RecipeSerializer, self).__init__(*args, **kwargs)
+        request = self.context.get('request')
+        self.fields['author'].context['request'] = request
+
     tags = TagSerializer(many=True)
     author = UserSerializer(read_only=True)
     ingredients = IngredientRecipeSerializer(
@@ -168,17 +184,17 @@ class RecipeSerializer(serializers.ModelSerializer):
         )
 
     def get_is_favorited(self, obj):
-        user = self.context.get('request').user
-        return user in obj.lover.all()
+        user = self.context['request'].user
+        return bool(obj.lover.filter(user=user))
 
     def get_is_in_shopping_cart(self, obj):
-        user = self.context.get('request').user
-        return user in obj.buyer.all()
+        user = self.context['request'].user
+        return bool(obj.buyer.filter(user=user))
 
 
 class FavoriteShoppingSerializer(serializers.ModelSerializer):
     """
-    Сериализатор для сериализации рецептов, находящися в списке 
+    Сериализатор для сериализации рецептов, находящися в списке
     избранного и списке покупок.
     """
 
