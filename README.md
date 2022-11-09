@@ -122,7 +122,7 @@ sudo docker-compose exec web python manage.py loaddata fixtures.json
 ```
 ### Стек:
 + frontend: React
-+ backend: DJANGO + Django Rest Framework
++ backend: Django + Django Rest Framework
 + db: PostgreSQL
 + container: Docker
 + servers: nginx, Gunicorn
