@@ -58,8 +58,10 @@ sudo docker-compose exec web python manage.py collectstatic --no-input
 sudo docker-compose exec web python manage.py loaddata fixtures.json
 ```
 
+## С приложением ознокомиться можно перейдя по ссылке
+![Приложение Foodgram](https://foodgram.com/)
 
-## В проекте есть такие эндпоинты
+## Эндпоинты приложения
 
 ### Регистрация нового пользователя
 ```
@@ -84,7 +86,7 @@ sudo docker-compose exec web python manage.py loaddata fixtures.json
 ```
 /api/recipes/{id}/shopping_cart/    методы: POST, DELETE
 ```
-### Скачивание файла в формате PDF с ингредиентами рецептов из списка покупок.
+### Скачивание файла в формате PDF с ингредиентами рецептов из списка покупок
 ```
 /api/recipes/download_shopping_cart/     метод: GET
 ```
