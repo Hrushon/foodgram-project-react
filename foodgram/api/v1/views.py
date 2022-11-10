@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.db.models import Avg
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
@@ -24,6 +25,8 @@ from .serializers import (
     ShoppingCreateSerializer,
     TagSerializer
 )
+
+User = get_user_model()
 
 
 class RecipeViewSet(viewsets.ModelViewSet):
