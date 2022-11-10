@@ -1,14 +1,10 @@
 import os
+import sys
 from django.conf import settings
 from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 from xhtml2pdf.files import pisaFileObject
-from reportlab.pdfbase import pdfmetrics
-from reportlab.pdfbase.ttfonts import TTFont
-
-
-pdfmetrics.registerFont(TTFont('OpenSans-Medium', settings.STATIC_ROOT + '/fonts/OpenSans-Medium.ttf'))
 
 
 def link_callback(uri, rel):
@@ -27,10 +23,14 @@ def link_callback(uri, rel):
 
 def html_to_pdf(template, context):
     response = HttpResponse(content_type="application/pdf")
-    response["Content-Disposition"] = 'filename="report.pdf"'
+    response["Content-Disposition"] = 'filename="shopping_cart.pdf"'
     template = get_template(template)
     html = template.render(context)
-    pisaFileObject.getNamedFile = lambda self: self.uri
+    if sys.platform == 'win32':
+        pisaFileObject.getNamedFile = (
+            lambda self: settings.STATIC_ROOT
+            + self.uri.replace(settings.STATIC_URL, '\\')
+        )
     pdf = pisa.CreatePDF(
         html, dest=response,
         encoding="utf-8",

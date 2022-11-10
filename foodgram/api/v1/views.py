@@ -46,7 +46,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         methods=['get'], detail=False,
     ) # permission_classes=(SelfEditUserOnlyPermission,)
     def download_shopping_cart(self, request):
-        user = User.objects.get(id=request.user.id)
+        user = User.objects.get(id=1) # request.user.id
         context = user.buy.values(
             'recipe__ingredients__name',
             'recipe__ingredients__measurement_unit'

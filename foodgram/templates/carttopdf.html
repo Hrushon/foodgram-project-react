@@ -2,23 +2,26 @@
 <html lang="ru">
   <head>
     <meta charset="utf-8">
-      <style type="text/css">
+    <style>
       @page {
         size: A4;
-        margin: 1cm;
-        @frame footer {
-            -pdf-frame-content: footerContent;
-            bottom: 0cm;
-            margin-left: 2cm;
-            margin-right: 2cm;
-            height: 3cm;
+        @frame header_frame {
+          -pdf-frame-content: headerContent;
+          left: 50pt; width: 512pt; top: 50pt; height: 40pt;
+        }
+        @frame content_frame {
+          left: 50pt; width: 512pt; top: 90pt; height: 632pt;
+        }
+        @frame footer_frame {
+          -pdf-frame-content: footerContent;
+          left: 50pt; width: 512pt; top: 725pt; height: 80pt;
         }
       }
       @font-face { 
         font-family: OpenSans-Medium;
-        src: url(/static/fonts/OpenSans-Medium.ttf)
+        src: url("/static/fonts/OpenSans-Medium.ttf")
       }
-      main { 
+      body { 
         font-family: OpenSans-Medium;
       }
       p { 
@@ -31,7 +34,7 @@
         height: 3px;
       }
       table {
-        width: 60%;
+        width: 50%;
         text-align: center;
         border: 1px solid black;
       }
@@ -41,16 +44,16 @@
       th {
         padding: 5px;
       }
-      </style>
+    </style>
   </head>
   <body>
-    <header>
+    <div id="headerContent">
       <p align="center">
         <font size="6" color="red">
           <b>Список покупок</b>
         </font>
       </p>
-    </header>
+    </div>
     <main>
       <font size="5">
         <hr>
@@ -76,13 +79,16 @@
     <div id="footerContent">
       <p align="center">
         <font size="4">
-          Сервис 
+          Сервис
           <font color="#fa8e47">
             "Foodgram"
           </font><br>
           Ваш "Продуктовый помощник" <br>
           © {% now "Y" %} Copyright
         </font>
+      </p>
+      <p align="center">
+        Страница - <pdf:pagenumber>
       </p>
     </div>
   </body>
