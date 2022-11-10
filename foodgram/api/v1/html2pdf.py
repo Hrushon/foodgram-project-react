@@ -3,6 +3,7 @@ from django.conf import settings
 from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
+from xhtml2pdf.files import pisaFileObject
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 
@@ -29,6 +30,7 @@ def html_to_pdf(template, context):
     response["Content-Disposition"] = 'filename="report.pdf"'
     template = get_template(template)
     html = template.render(context)
+    pisaFileObject.getNamedFile = lambda self: self.uri
     pdf = pisa.CreatePDF(
         html, dest=response,
         encoding="utf-8",
