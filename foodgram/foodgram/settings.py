@@ -150,16 +150,16 @@ REST_FRAMEWORK = {
 DJOSER = {
     # 'PASSWORD_RESET_CONFIRM_URL': '#/users/set_password',
     # 'ACTIVATION_URL': '#/token/login/',
+    'HIDE_USERS': False,
     'SEND_ACTIVATION_EMAIL': False,
     'LOGIN_FIELD': 'email',
     'SERIALIZERS': {
-        'current_user': 'api.v1.serializers.UserSerializer',
-        'user_create': 'api.v1.serializers.CustomUserCreateSerializer',
-        'user': 'api.v1.serializers.UserSerializer',
+        'current_user': 'users.serializers.UserSerializer',
+        'user_create': 'users.serializers.CustomUserCreateSerializer',
+        'user': 'users.serializers.UserSerializer',
     },
     'PERMISSIONS': {
         'user': ['rest_framework.permissions.IsAuthenticated'],
         'user_list': ['rest_framework.permissions.AllowAny'],
     }
 }
-

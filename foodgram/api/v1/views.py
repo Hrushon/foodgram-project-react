@@ -1,4 +1,3 @@
-from django.contrib.auth import get_user_model
 from django.db.models import Avg
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
@@ -6,14 +5,12 @@ from django.template.loader import render_to_string
 from rest_framework import mixins, serializers, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from djoser.views import UserViewSet
 
 from head.models import (
     Ingredient,
     Recipe,
     Tag
 )
-from users.models import User
 
 from .html2pdf import html_to_pdf
 from .serializers import (
@@ -25,8 +22,6 @@ from .serializers import (
     ShoppingCreateSerializer,
     TagSerializer
 )
-
-User = get_user_model()
 
 
 class RecipeViewSet(viewsets.ModelViewSet):
@@ -46,7 +41,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         methods=['get'], detail=False,
     ) # permission_classes=(SelfEditUserOnlyPermission,)
     def download_shopping_cart(self, request):
-        user = User.objects.get(id=1) # request.user.id
+        user = self.request.user
         context = user.buy.values(
             'recipe__ingredients__name',
             'recipe__ingredients__measurement_unit'
@@ -58,7 +53,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         methods=['post', 'delete'], detail=True,
     ) # permission_classes=(SelfEditUserOnlyPermission,)
     def favorite(self, request, pk):
-        user = User.objects.get(id=request.user.id)
+        user = self.request.user
         recipe = self.get_object()
         if request.method == 'DELETE':
             instance = user.favorites.filter(recipe=recipe)
@@ -86,7 +81,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         methods=['post', 'delete'], detail=True,
     ) # permission_classes=(SelfEditUserOnlyPermission,)
     def shopping_cart(self, request, pk):
-        user = User.objects.get(id=request.user.id)
+        user = self.request.user
         recipe = self.get_object()
         if request.method == 'DELETE':
             instance = user.buy.filter(recipe=recipe)

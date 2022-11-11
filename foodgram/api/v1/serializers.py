@@ -1,5 +1,6 @@
 import base64
 
+from django.contrib.auth import get_user_model
 from django.core.files.base import ContentFile
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
@@ -15,6 +16,8 @@ from head.models import (
     TagRecipe
 )
 from users.serializers import UserSerializer
+
+User = get_user_model()
 
 
 class IngredientSerializer(serializers.ModelSerializer):
@@ -195,7 +198,8 @@ class FavoriteCreateSerializer(serializers.ModelSerializer):
         validators = [
             UniqueTogetherValidator(
                 queryset=Favorite.objects.all(),
-                fields=('user', 'recipe')
+                fields=('user', 'recipe'),
+                message='Этот рецепт уже есть в Вашем списке.'
             )
         ]
 
@@ -210,6 +214,7 @@ class ShoppingCreateSerializer(serializers.ModelSerializer):
         validators = [
             UniqueTogetherValidator(
                 queryset=ShoppingCart.objects.all(),
-                fields=('user', 'recipe')
+                fields=('user', 'recipe'),
+                message='Этот рецепт уже есть в Вашем списке.'
             )
         ]
