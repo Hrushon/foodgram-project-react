@@ -160,11 +160,11 @@ class RecipeSerializer(serializers.ModelSerializer):
 
     def get_is_favorited(self, obj):
         user = self.context['request'].user
-        return bool(obj.lover.filter(user=user))
+        return user.is_authenticated and bool(obj.lover.filter(user=user))
 
     def get_is_in_shopping_cart(self, obj):
         user = self.context['request'].user
-        return bool(obj.buyer.filter(user=user))
+        return user.is_authenticated and bool(obj.buyer.filter(user=user))
 
 
 class FavoriteShoppingSerializer(serializers.ModelSerializer):

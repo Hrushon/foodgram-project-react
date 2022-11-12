@@ -140,16 +140,14 @@ AUTH_USER_MODEL = 'users.User'
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
+        'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
-    ],
+    ]
 }
 
 DJOSER = {
-    # 'PASSWORD_RESET_CONFIRM_URL': '#/users/set_password',
-    # 'ACTIVATION_URL': '#/token/login/',
     'HIDE_USERS': False,
     'SEND_ACTIVATION_EMAIL': False,
     'LOGIN_FIELD': 'email',
@@ -161,5 +159,6 @@ DJOSER = {
     'PERMISSIONS': {
         'user': ['rest_framework.permissions.IsAuthenticated'],
         'user_list': ['rest_framework.permissions.AllowAny'],
+        'set_password': ['rest_framework.permissions.IsAuthenticated'],
     }
 }

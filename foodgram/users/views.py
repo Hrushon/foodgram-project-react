@@ -1,10 +1,10 @@
 from django.contrib.auth import get_user_model
-from django.shortcuts import get_object_or_404
 from djoser.views import UserViewSet
 from rest_framework import serializers, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
+from api.v1.paginators import CustomPagination
 from .serializers import (
     SubscriptionSerializer,
     SubscriptionCreateSerializer
@@ -15,11 +15,12 @@ User = get_user_model()
 
 class UserCustomViewSet(UserViewSet):
     """Кастомизированный вьюсет библиотеки 'djoser'."""
+    pagination_class = CustomPagination
 
     @action(
         methods=['get'], detail=False,
-        serializer_class=(SubscriptionSerializer)
-    ) # permission_classes=(SelfEditUserOnlyPermission,)
+        serializer_class=SubscriptionSerializer
+    )
     def subscriptions(self, request):
         user = self.request.user
 
@@ -31,8 +32,8 @@ class UserCustomViewSet(UserViewSet):
 
     @action(
         methods=['post', 'delete'], detail=True,
-        serializer_class=(SubscriptionSerializer)
-    ) # permission_classes=(SelfEditUserOnlyPermission,)
+        serializer_class=SubscriptionSerializer
+    )
     def subscribe(self, request, id):
         user = self.request.user
         author = self.get_object()
