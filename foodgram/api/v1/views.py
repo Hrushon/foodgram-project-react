@@ -1,4 +1,5 @@
 from django.db.models import Avg
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import serializers, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
@@ -10,6 +11,7 @@ from head.models import (
     Tag
 )
 
+from .filters import RecipeFilter
 from .html2pdf import html_to_pdf
 from .paginators import CustomPagination
 from .permissions import IsAuthorOnlyPermission
@@ -28,6 +30,8 @@ class RecipeViewSet(viewsets.ModelViewSet):
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
     pagination_class = CustomPagination
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = RecipeFilter
     http_method_names = ['get', 'post', 'patch', 'delete']
 
     def get_serializer_class(self):

@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'head.apps.HeadConfig',
     'users.apps.UsersConfig',
     'rest_framework',
+    'django_filters',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
