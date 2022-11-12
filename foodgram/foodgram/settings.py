@@ -145,7 +145,8 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
-    ]
+    ],
+    'SEARCH_PARAM': 'name',
 }
 
 DJOSER = {
@@ -163,3 +164,5 @@ DJOSER = {
         'set_password': ['rest_framework.permissions.IsAuthenticated'],
     }
 }
+
+COUNT_RECIPES_DEFAULT = 3

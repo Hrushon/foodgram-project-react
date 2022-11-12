@@ -1,3 +1,4 @@
+from django.conf import settings
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 from djoser.serializers import (
@@ -62,7 +63,7 @@ class SubscriptionSerializer(serializers.ModelSerializer):
     """Сериализатор для подписок."""
 
     is_subscribed = serializers.SerializerMethodField()
-    recipes = FavoriteShoppingSerializer(many=True)
+    recipes = serializers.SerializerMethodField()
     recipes_count = serializers.SerializerMethodField()
 
     class Meta:
@@ -77,6 +78,13 @@ class SubscriptionSerializer(serializers.ModelSerializer):
             'recipes',
             'recipes_count'
         )
+
+    def get_recipes(self, obj):
+        limit = self.context['request'].query_params.get(
+            'recipes_limit', settings.COUNT_RECIPES_DEFAULT
+        )
+        recipes = obj.recipes.all()[:int(limit)]
+        return FavoriteShoppingSerializer(recipes, many=True).data
 
     def get_is_subscribed(self, obj):
         user = self.context['request'].user
