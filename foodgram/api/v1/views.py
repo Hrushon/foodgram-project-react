@@ -7,8 +7,10 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from head.models import (
+    Favorite,
     Ingredient,
     Recipe,
+    ShoppingCart,
     Tag
 )
 
@@ -27,7 +29,46 @@ from .serializers import (
 )
 
 
+def custom_post_delete(self, request, pk, func_model):
+    """Функция-обработчик POST, DELETE запросов """
+    user = self.request.user
+    recipe = self.get_object()
+    if request.method == 'DELETE':
+        instance = func_model.objects.filter(recipe=recipe, user=user)
+        if not instance:
+            raise serializers.ValidationError(
+                {
+                    'errors': [
+                        'Этот рецепт в списке отсутствует.'
+                    ]
+                }
+            )
+        instance.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    data = {
+        'user': user.id,
+        'recipe': pk
+    }
+    favorite = self.get_serializer(data=data)
+    favorite.is_valid(raise_exception=True)
+    favorite.save()
+    serializer = FavoriteShoppingSerializer(recipe)
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
 class RecipeViewSet(viewsets.ModelViewSet):
+    """
+    Представление для рецептов, обрабатывающее GET, POST,
+    PATCH, DELETE - запросы. Кроме этого, запросы POST, DELETE для
+    изменения 'списка покупок' и 'списка избранных рецептов' пользователя.
+    Также обрабатывает GET-запрос на скачивание списка покупок в PDF-файле.
+    Настроена пагинация, устанавливать количество рецептов на страницу
+    можно по параметру 'limit' (по умолчанию - 10 рецетов на страницу).
+    Имеется возможность фильтровать результаты поиска по нескольким критериям:
+    по автору рецепта, по тегу (slug-поле), по наличию рецепта в 'списке
+    покупок' или 'списке избранного' у текущего пользователя.
+    """
+
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
     pagination_class = CustomPagination
@@ -71,66 +112,31 @@ class RecipeViewSet(viewsets.ModelViewSet):
         methods=['post', 'delete'], detail=True,
     )
     def favorite(self, request, pk):
-        user = self.request.user
-        recipe = self.get_object()
-        if request.method == 'DELETE':
-            instance = user.favorites.filter(recipe=recipe)
-            if not instance:
-                raise serializers.ValidationError(
-                    {
-                        'errors': [
-                            'Этот рецепт в списке отсутствует.'
-                        ]
-                    }
-                )
-            instance.delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        data = {
-            'user': user.id,
-            'recipe': pk
-        }
-        favorite = self.get_serializer(data=data)
-        favorite.is_valid(raise_exception=True)
-        favorite.save()
-        serializer = FavoriteShoppingSerializer(recipe)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        func_model = Favorite
+        return custom_post_delete(self, request, pk, func_model)
 
     @action(
         methods=['post', 'delete'], detail=True,
     )
     def shopping_cart(self, request, pk):
-        user = self.request.user
-        recipe = self.get_object()
-        if request.method == 'DELETE':
-            instance = user.buy.filter(recipe=recipe)
-            if not instance:
-                raise serializers.ValidationError(
-                    {
-                        'errors': [
-                            'Этот рецепт в списке отсутствует.'
-                        ]
-                    }
-                )
-            instance.delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        data = {
-            'user': user.id,
-            'recipe': pk
-        }
-        shop_cart = self.get_serializer(data=data)
-        shop_cart.is_valid(raise_exception=True)
-        shop_cart.save()
-        serializer = FavoriteShoppingSerializer(recipe)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        func_model = ShoppingCart
+        return custom_post_delete(self, request, pk, func_model)
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
+    """Представление для тегов, обрабатывающее только безопасные запросы."""
+
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
     permission_classes = (AllowAny,)
 
 
 class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    Представление для ингредиентов, обрабатывающее только безопасные запросы.
+    Доступен поиск ингредиентов по названию.
+    """    
+
     queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializer
     permission_classes = (AllowAny,)

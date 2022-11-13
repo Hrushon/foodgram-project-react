@@ -108,3 +108,9 @@ class SubscriptionCreateSerializer(serializers.ModelSerializer):
                 message='Вы уже подписаны на этого пользователя.'
             )
         ]
+
+    def validate(self, data):
+        if data['user'] == data['author']:
+            raise serializers.ValidationError(
+                'Вы не можете подписаться на самого себя.')
+        return data

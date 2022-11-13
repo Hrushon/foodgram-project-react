@@ -8,11 +8,15 @@ from xhtml2pdf.files import pisaFileObject
 
 
 def link_callback(uri, rel):
-    if uri.find(settings.MEDIA_URL) != -1:
+    """
+    Создаёт абсолютный путь до файла статики или медиа,
+    используемых в генерации страницы PDF из HTML-файла.
+    """
+    if uri.find(settings.MEDIA_URL) != settings.NEGATIVE_RESULT:
         path = os.path.join(
             settings.MEDIA_ROOT, uri.replace(settings.MEDIA_URL, '')
         )
-    elif uri.find(settings.STATIC_URL) != -1:
+    elif uri.find(settings.STATIC_URL) != settings.NEGATIVE_RESULT:
         path = os.path.join(
             settings.STATIC_ROOT, uri.replace(settings.STATIC_URL, '')
         )
@@ -22,6 +26,7 @@ def link_callback(uri, rel):
 
 
 def html_to_pdf(template, context):
+    """Преобразует html-страницу с данными из БД в PDF-файл."""
     response = HttpResponse(content_type="application/pdf")
     response["Content-Disposition"] = 'filename="shopping_cart.pdf"'
     template = get_template(template)

@@ -3,6 +3,8 @@ from django.db import models
 
 
 class User(AbstractUser):
+    """Кастомная модель пользователя."""
+
     first_name = models.CharField(
         verbose_name='Имя',
         max_length=150

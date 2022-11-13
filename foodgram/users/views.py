@@ -50,14 +50,6 @@ class UserCustomViewSet(UserViewSet):
                 )
             instance.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
-        if user == author:
-            raise serializers.ValidationError(
-                {
-                    'errors': [
-                        'Вы не можете подписаться на самого себя.'
-                    ]
-                }
-            )
         data = {
             'user': user.id,
             'author': id

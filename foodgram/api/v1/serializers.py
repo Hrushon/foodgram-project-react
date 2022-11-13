@@ -30,12 +30,14 @@ class IngredientSerializer(serializers.ModelSerializer):
 
 class IngredientRecipeSaveSerializer(serializers.Serializer):
     """Сериализатор для сохранения ингредиентов в рецепте."""
+
     id = serializers.IntegerField()
     amount = serializers.IntegerField(min_value=1)
 
 
 class IngredientRecipeSerializer(serializers.ModelSerializer):
     """Сериализатор для представления ингредиентов в рецепте."""
+
     id = serializers.IntegerField(source='ingredient.id')
     name = serializers.CharField(source='ingredient.name')
     measurement_unit = serializers.CharField(
@@ -57,6 +59,7 @@ class TagSerializer(serializers.ModelSerializer):
 
 class Base64ImageField(serializers.ImageField):
     """Сериализатор декодирования картинки."""
+
     def to_internal_value(self, data):
         if isinstance(data, str) and data.startswith('data:image'):
             format, imgstr = data.split(';base64,')

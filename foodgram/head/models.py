@@ -1,9 +1,8 @@
+from django.conf import settings
 from django.core.validators import MinValueValidator
 from django.db import models
 
 from users.models import User
-
-COEFF_ONE = 1
 
 
 class Recipe(models.Model):
@@ -39,7 +38,7 @@ class Recipe(models.Model):
     )
     cooking_time = models.PositiveSmallIntegerField(
         verbose_name='Время приготовления (мин)',
-        validators=[MinValueValidator(COEFF_ONE)]
+        validators=[MinValueValidator(settings.COEFF_ONE)]
     )
 
     class Meta:
@@ -123,7 +122,7 @@ class IngredientRecipe(models.Model):
     )
     amount = models.PositiveSmallIntegerField(
         verbose_name='Количество',
-        validators=[MinValueValidator(COEFF_ONE)]
+        validators=[MinValueValidator(settings.COEFF_ONE)]
     )
 
     class Meta:
@@ -189,6 +188,10 @@ class Subscription(models.Model):
             models.UniqueConstraint(
                 fields=['user', 'author'],
                 name='unique_user_author'
+            ),
+            models.CheckConstraint(
+                check=~models.Q(user=models.F("author")),
+                name="prevent_self_subscription"
             )
         ]
 

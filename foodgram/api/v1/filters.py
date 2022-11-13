@@ -6,7 +6,7 @@ from head.models import Recipe
 
 
 class RecipeFilter(FilterSet):
-    """Кастомный фильтр для рецептов."""
+    """Кастомный фильтр для представления рецептов."""
 
     is_favorited = NumberFilter(
         field_name='lover__user', method='filter_users_lists'
