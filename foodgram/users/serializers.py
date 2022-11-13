@@ -1,9 +1,7 @@
 from django.conf import settings
+from djoser.serializers import UserCreateSerializer
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
-from djoser.serializers import (
-    UserCreateSerializer
-)
 
 from head.models import Recipe, Subscription
 from users.models import User

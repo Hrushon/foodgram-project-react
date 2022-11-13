@@ -6,15 +6,8 @@ from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 
-from head.models import (
-    Favorite,
-    Ingredient,
-    IngredientRecipe,
-    Recipe,
-    ShoppingCart,
-    Tag,
-    TagRecipe
-)
+from head.models import (Favorite, Ingredient, IngredientRecipe, Recipe,
+                         ShoppingCart, Tag, TagRecipe)
 from users.serializers import UserSerializer
 
 User = get_user_model()

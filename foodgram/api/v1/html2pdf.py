@@ -1,5 +1,6 @@
 import os
 import sys
+
 from django.conf import settings
 from django.http import HttpResponse
 from django.template.loader import get_template
@@ -20,9 +21,7 @@ def link_callback(uri, rel):
         path = os.path.join(
             settings.STATIC_ROOT, uri.replace(settings.STATIC_URL, '')
         )
-    else:
-        path = None
-    return path
+    return path or None
 
 
 def html_to_pdf(template, context):

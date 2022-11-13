@@ -6,27 +6,16 @@ from rest_framework.filters import SearchFilter
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
-from head.models import (
-    Favorite,
-    Ingredient,
-    Recipe,
-    ShoppingCart,
-    Tag
-)
+from head.models import Favorite, Ingredient, Recipe, ShoppingCart, Tag
 
 from .filters import RecipeFilter
 from .html2pdf import html_to_pdf
 from .paginators import CustomPagination
 from .permissions import IsAuthorOnlyPermission
-from .serializers import (
-    FavoriteShoppingSerializer,
-    FavoriteCreateSerializer,
-    IngredientSerializer,
-    RecipeSerializer,
-    RecipeCreateSerializer,
-    ShoppingCreateSerializer,
-    TagSerializer
-)
+from .serializers import (FavoriteCreateSerializer, FavoriteShoppingSerializer,
+                          IngredientSerializer, RecipeCreateSerializer,
+                          RecipeSerializer, ShoppingCreateSerializer,
+                          TagSerializer)
 
 
 def custom_post_delete(self, request, pk, func_model):
@@ -135,7 +124,7 @@ class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
     """
     Представление для ингредиентов, обрабатывающее только безопасные запросы.
     Доступен поиск ингредиентов по названию.
-    """    
+    """
 
     queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializer

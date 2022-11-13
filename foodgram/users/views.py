@@ -5,10 +5,8 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from api.v1.paginators import CustomPagination
-from .serializers import (
-    SubscriptionSerializer,
-    SubscriptionCreateSerializer
-)
+
+from .serializers import SubscriptionCreateSerializer, SubscriptionSerializer
 
 User = get_user_model()
 
