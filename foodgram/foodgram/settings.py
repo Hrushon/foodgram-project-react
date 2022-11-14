@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'head.apps.HeadConfig',
     'users.apps.UsersConfig',
     'rest_framework',
+    'corsheaders',
     'django_filters',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -49,6 +50,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -168,6 +170,9 @@ DJOSER = {
         'set_password': ['rest_framework.permissions.IsAuthenticated'],
     }
 }
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_URLS_REGEX = r'^/api/.*$', r'^/admin/.*$'
 
 COUNT_RECIPES_DEFAULT = 3
 
