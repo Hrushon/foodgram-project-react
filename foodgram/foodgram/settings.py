@@ -25,7 +25,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'jhvsklhglsgvnnuefc')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '*']
+ALLOWED_HOSTS = ['158.160.17.200', 'localhost', 'foodgram.bounceme.net']
 
 
 # Application definition
