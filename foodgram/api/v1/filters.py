@@ -1,4 +1,4 @@
-from django_filters.rest_framework import CharFilter, FilterSet, NumberFilter
+from django_filters.rest_framework import AllValuesMultipleFilter, FilterSet, NumberFilter
 
 from head.models import Recipe
 
@@ -12,7 +12,7 @@ class RecipeFilter(FilterSet):
     is_in_shopping_cart = NumberFilter(
         field_name='buyer__user', method='filter_users_lists'
     )
-    tags = CharFilter(field_name='tags__slug', lookup_expr='iexact')
+    tags = AllValuesMultipleFilter(field_name='tags__slug')
 
     def filter_users_lists(self, queryset, name, value):
         user = self.request.user
