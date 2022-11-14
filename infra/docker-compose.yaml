@@ -9,7 +9,7 @@ services:
       - ./.env
 
   backend:
-    build: ../foodgram/
+    image: hrushon/foodgramback
     restart: always
     volumes:
       - static_value:/app/static/
@@ -20,8 +20,7 @@ services:
       - ./.env
 
   frontend:
-    build:
-      context: ../frontend
+    image: hrushon/foodgramfront
     volumes:
       - ../frontend/:/app/result_build/
 
