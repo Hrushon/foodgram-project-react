@@ -86,12 +86,12 @@ WSGI_APPLICATION = 'foodgram.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.getenv('DB_ENGINE', default='django.db.backends.postgresql'),
+        'ENGINE': os.getenv('DB_ENGINE', default='django.db.backends.sqlite3'),
         'NAME': os.getenv('DB_NAME', default=os.path.join(BASE_DIR, 'db.sqlite3')),
-        'USER': os.getenv('POSTGRES_USER', default='USER'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD', default='PASSWORD'),
-        'HOST': os.getenv('DB_HOST', default='HOST'),
-        'PORT': os.getenv('DB_PORT', default='PORT')
+#        'USER': os.getenv('POSTGRES_USER', default='USER'),
+#        'PASSWORD': os.getenv('POSTGRES_PASSWORD', default='PASSWORD'),
+#        'HOST': os.getenv('DB_HOST', default='HOST'),
+#        'PORT': os.getenv('DB_PORT', default='PORT')
     }
 }
 
@@ -172,7 +172,8 @@ DJOSER = {
 }
 
 CORS_ORIGIN_ALLOW_ALL = True
-CORS_URLS_REGEX = r'^/api/.*$', r'^/admin/.*$'
+CORS_URLS_REGEX = r'^/api/.*$'
+CORS_URLS_REGEX = r'^/admin/.*$'
 
 COUNT_RECIPES_DEFAULT = 3
 
