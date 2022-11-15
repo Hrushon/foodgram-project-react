@@ -1,4 +1,4 @@
-![Workflow](https://github.com/Hrushon/yamdb_final/actions/workflows/foodgram_workflow.yml/badge.svg)
+![Workflow](https://github.com/Hrushon/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)
 
 # FOODGRAM
 ## Продуктовый помощник
