@@ -1,5 +1,4 @@
-from django_filters.rest_framework import (CharFilter, FilterSet,
-                                           NumberFilter)
+from django_filters.rest_framework import CharFilter, FilterSet, NumberFilter
 
 from head.models import Recipe
 
@@ -22,7 +21,7 @@ class RecipeFilter(FilterSet):
         return queryset.filter(**{name: user})
 
     def tags_filter(self, queryset, name, value):
-        return queryset.filter(**{name: value,}).distinct()
+        return queryset.filter(**{name: value, }).distinct()
 
     class Meta:
         model = Recipe
