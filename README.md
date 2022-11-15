@@ -61,7 +61,7 @@ sudo docker-compose exec web python manage.py loaddata dump.json
 ```
 
 ## С приложением ознокомиться можно перейдя по ссылке
-![Приложение Foodgram](https://foodgram.bounceme.net/)
+![Приложение Foodgram](http://foodgram.bounceme.net/)
 
 ## Эндпоинты приложения
 
