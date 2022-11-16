@@ -13,7 +13,7 @@ class RecipeFilter(FilterSet):
     is_in_shopping_cart = NumberFilter(
         field_name='buyer__user', method='filter_users_lists'
     )
-    tags = AllValuesFilter(field_name='tags_slug')
+    tags = AllValuesMultipleFilter(field_name='tags_slug')
 
     class Meta:
         model = Recipe
