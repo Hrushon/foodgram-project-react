@@ -12,7 +12,7 @@ class RecipeFilter(FilterSet):
     is_in_shopping_cart = filters.NumberFilter(
         field_name='buyer__user', method='filter_users_lists'
     )
-    tags = filters.ModelMultipleChoiceFilter(
+    tags = filters.AllValuesMultipleFilter(
         field_name='tags__slug',
         to_field_name='slug',
         queryset=Tag.objects.all()
