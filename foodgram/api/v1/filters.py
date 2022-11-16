@@ -22,7 +22,7 @@ class RecipeFilter(FilterSet):
 
     def tags_filter(self, queryset, name, value):
         for item in value:
-            queryset.filter(tag__slug=item)
+            queryset.filter(tags__slug=item)
         return queryset.distinct()
 
     class Meta:
