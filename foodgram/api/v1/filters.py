@@ -1,19 +1,22 @@
-from django_filters.rest_framework import (AllValuesMultipleFilter, FilterSet,
-                                           NumberFilter)
+from django_filters.rest_framework import filters, FilterSet
 
-from head.models import Recipe
+from head.models import Recipe, Tag
 
 
 class RecipeFilter(FilterSet):
     """Кастомный фильтр для представления рецептов."""
 
-    is_favorited = NumberFilter(
+    is_favorited = filters.NumberFilter(
         field_name='lover__user', method='filter_users_lists'
     )
-    is_in_shopping_cart = NumberFilter(
+    is_in_shopping_cart = filters.NumberFilter(
         field_name='buyer__user', method='filter_users_lists'
     )
-    tags = AllValuesMultipleFilter(field_name='tags_slug')
+    tags = filters.ModelMultipleChoiceFilter(
+        field_name='tags__slug',
+        to_field_name='slug',
+        queryset=Tag.objects.all()
+    )
 
     class Meta:
         model = Recipe
