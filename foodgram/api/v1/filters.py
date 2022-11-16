@@ -13,9 +13,7 @@ class RecipeFilter(FilterSet):
         field_name='buyer__user', method='filter_users_lists'
     )
     tags = filters.AllValuesMultipleFilter(
-        field_name='tags__slug',
-        to_field_name='slug',
-        queryset=Tag.objects.all()
+        field_name='tags__slug'
     )
 
     class Meta:
