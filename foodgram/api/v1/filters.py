@@ -21,7 +21,9 @@ class RecipeFilter(FilterSet):
         return queryset.filter(**{name: user})
 
     def tags_filter(self, queryset, name, value):
-        return queryset.filter(**{name: value, }).distinct()
+        for item in value:
+            queryset.filter(tag__slug=item)
+        return queryset.distinct()
 
     class Meta:
         model = Recipe
