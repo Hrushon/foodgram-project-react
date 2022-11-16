@@ -1,4 +1,5 @@
-from django_filters.rest_framework import AllValuesFilter, FilterSet, NumberFilter
+from django_filters.rest_framework import (AllValuesMultipleFilter, FilterSet,
+                                           NumberFilter)
 
 from head.models import Recipe
 
@@ -14,19 +15,14 @@ class RecipeFilter(FilterSet):
     )
     tags = AllValuesFilter(field_name='tags_slug')
 
-    def filter_users_lists(self, queryset, name, value):
-        user = self.request.user
-        if user.is_anonymous or not int(value):
-            return queryset
-        return queryset.filter(**{name: user})
-
-   # def tags_filter(self, queryset, name, value):
-   #     for item in value:
-   #         queryset.filter(tags__slug=item)
-   #     return queryset.distinct()
-
     class Meta:
         model = Recipe
         fields = (
             'author',
         )
+
+    def filter_users_lists(self, queryset, name, value):
+        user = self.request.user
+        if user.is_anonymous or not int(value):
+            return queryset
+        return queryset.filter(**{name: user})
