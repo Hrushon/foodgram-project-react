@@ -77,12 +77,12 @@ class RecipeViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         if self.action in ('list', 'retrieve'):
             self.permission_classes = (AllowAny,)
+        elif self.action in ('favorite', 'shopping_cart'):
+            self.permission_classes = (IsAuthenticated,)
         elif self.request.method in (
             'PATCH', 'DELETE'
         ):
             self.permission_classes = (IsAuthorOnlyPermission,)
-        elif self.action in ('favorite', 'shopping_cart'):
-            self.permission_classes = (IsAuthenticated)
         return super().get_permissions()
 
     def perform_create(self, serializer):
