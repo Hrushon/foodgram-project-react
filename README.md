@@ -4,7 +4,7 @@
 ![Django](https://img.shields.io/badge/Django-2.2.19-red?style=for-the-badge&logo=django&logoColor=blue)
 ![Postgres](https://img.shields.io/badge/Postgres-13.0-blueviolet?style=for-the-badge&logo=postgresql&logoColor=yellow)
 ![Nginx](https://img.shields.io/badge/NGINX-1.19.3-orange?style=for-the-badge&logo=nginx&logoColor=green)
-![Gunicorn](https://img.shields.io/badge/Gunicorn-20.1.0-important?style=for-the-badge&logo=gunicorn&logoColor=white)
+![Gunicorn](https://img.shields.io/badge/Gunicorn-20.1.0-inactive?style=for-the-badge&logo=gunicorn&logoColor=white)
 
 # FOODGRAM
 ## Продуктовый помощник
