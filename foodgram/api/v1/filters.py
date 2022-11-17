@@ -1,9 +1,9 @@
-from django_filters.rest_framework import FilterSet, filters
+from django_filters import rest_framework as filters
 
-from head.models import Recipe, Tag
+from head.models import Recipe
 
 
-class RecipeFilter(FilterSet):
+class RecipeFilter(filters.FilterSet):
     """Кастомный фильтр для представления рецептов."""
 
     is_favorited = filters.NumberFilter(
