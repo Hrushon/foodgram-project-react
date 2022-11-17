@@ -43,7 +43,7 @@ jobs:
           context: .
           file: ./foodgram/Dockerfile
           push: true
-          tags: hrushon/foodgramback
+          tags: hrushon/foodgramback:workflow
   
   deploy:
     runs-on: ubuntu-latest
