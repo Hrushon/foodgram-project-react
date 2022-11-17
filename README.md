@@ -1,6 +1,7 @@
 ![Workflow](https://github.com/Hrushon/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)
 
 ![Python](https://img.shields.io/badge/Python-3.8.9-blue?style=for-the-badge&logo=python?logoColor=violet)
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
 
 # FOODGRAM
 ## Продуктовый помощник
