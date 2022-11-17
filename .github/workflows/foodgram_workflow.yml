@@ -57,7 +57,7 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         passphrase: ${{ secrets.PASSPHRASE }}
         script: |
-          sudo docker pull hrushon/backend:latest
+          sudo docker pull hrushon/foodgramback:latest
           sudo docker compose stop
           sudo docker compose rm -f backend
           touch .env
