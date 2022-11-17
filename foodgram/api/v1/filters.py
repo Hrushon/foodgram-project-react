@@ -1,6 +1,6 @@
 from django_filters import rest_framework as filters
 
-from head.models import Recipe
+from head.models import Recipe, Tag
 
 
 class RecipeFilter(filters.FilterSet):
@@ -12,8 +12,10 @@ class RecipeFilter(filters.FilterSet):
     is_in_shopping_cart = filters.NumberFilter(
         field_name='buyer__user', method='filter_users_lists'
     )
-    tags = filters.AllValuesMultipleFilter(
-        field_name='tags__slug'
+    tags = filters.ModelMultipleChoiceFilter(
+        field_name='tags__slug',
+        queryset=Tag.objects.all(),
+        to_field_name='slug'
     )
 
     class Meta:
