@@ -2,7 +2,7 @@
 
 ![Python](https://img.shields.io/badge/Python-3.7.0-blue?style=for-the-badge&logo=python&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
-![Django](https://img.shields.io/badge/Django-2.2.19-yellowstyle=for-the-badge&logo=django&logoColor=white)
+![Django](https://img.shields.io/badge/Django-2.2.19-yellow?style=for-the-badge&logo=django&logoColor=white)
 
 # FOODGRAM
 ## Продуктовый помощник
