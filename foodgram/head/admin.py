@@ -6,6 +6,12 @@ from .models import (Favorite, Ingredient, IngredientRecipe, Recipe,
 
 class IngredientRecipeInline(admin.TabularInline):
     model = IngredientRecipe
+    readonly_fields = ('measurement_unit',)
+
+    def measurement_unit(self, instance):
+        return instance.ingredient.measurement_unit
+
+    measurement_unit.short_description = ' Единица измерения'
 
 
 class TagRecipeInline(admin.TabularInline):
