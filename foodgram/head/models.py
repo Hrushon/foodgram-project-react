@@ -1,5 +1,6 @@
 from django.conf import settings
-from django.core.validators import MinValueValidator
+from django.core.validators import (MinValueValidator, MaxLengthValidator,
+                                    RegexValidator)
 from django.db import models
 
 from users.models import User
@@ -34,7 +35,8 @@ class Recipe(models.Model):
         verbose_name='Картинка'
     )
     text = models.TextField(
-        verbose_name='Описание'
+        verbose_name='Описание',
+        validators=[MaxLengthValidator(settings.COEFF_ONE_THOUSAND)]
     )
     cooking_time = models.PositiveSmallIntegerField(
         verbose_name='Время приготовления (мин)',
@@ -88,7 +90,8 @@ class Tag(models.Model):
     color = models.CharField(
         max_length=7,
         verbose_name='Цвет',
-        unique=True
+        unique=True,
+        validators=[RegexValidator(regex=r'^#([A-Fa-f0-9]{6})$')]
     )
     slug = models.SlugField(
         max_length=200,

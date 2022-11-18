@@ -11,7 +11,7 @@ from head.models import Favorite, Ingredient, Recipe, ShoppingCart, Tag
 from .filters import RecipeFilter
 from .html2pdf import html_to_pdf
 from .paginators import CustomPagination
-from .permissions import IsAuthorOnlyPermission
+from .permissions import IsAuthorOrAdminOnlyPermission
 from .serializers import (FavoriteCreateSerializer, FavoriteShoppingSerializer,
                           IngredientSerializer, RecipeCreateSerializer,
                           RecipeSerializer, ShoppingCreateSerializer,
@@ -82,7 +82,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         elif self.request.method in (
             'PATCH', 'DELETE'
         ):
-            self.permission_classes = (IsAuthorOnlyPermission,)
+            self.permission_classes = (IsAuthorOrAdminOnlyPermission,)
         return super().get_permissions()
 
     def perform_create(self, serializer):

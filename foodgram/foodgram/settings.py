@@ -25,7 +25,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'jhvsklhglsgvnnuefc')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['158.160.17.200', 'localhost', 'foodgram.bounceme.net']
+ALLOWED_HOSTS = ['158.160.17.200', 'localhost', 'foodgram.bounceme.net', '127.0.0.1']
 
 
 # Application definition
@@ -180,3 +180,5 @@ COUNT_RECIPES_DEFAULT = 3
 NEGATIVE_RESULT = -1
 
 COEFF_ONE = 1
+
+COEFF_ONE_THOUSAND = 1000
