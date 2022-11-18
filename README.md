@@ -128,10 +128,3 @@ sudo docker-compose exec web python manage.py loaddata dump.json
 ```
 /api/ingredients/{id}/    метод: GET
 ```
-
-### Стек:
-+ frontend: React
-+ backend: Django + Django Rest Framework
-+ db: PostgreSQL
-+ container: Docker
-+ servers: nginx, Gunicorn
