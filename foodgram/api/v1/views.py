@@ -1,4 +1,4 @@
-from django.db.models import Avg
+from django.db.models import Sum
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import serializers, status, viewsets
 from rest_framework.decorators import action
@@ -96,7 +96,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         context = user.buy.values(
             'recipe__ingredients__name',
             'recipe__ingredients__measurement_unit'
-        ).annotate(total=Avg('recipe__ingredientrecipe__amount'))
+        ).annotate(total=Sum('recipe__ingredientrecipe__amount'))
         return html_to_pdf('carttopdf.html', {'context': context})
 
     @action(
