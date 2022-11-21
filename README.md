@@ -66,11 +66,6 @@ sudo docker-compose exec web python manage.py collectstatic --no-input
 sudo docker-compose exec web python manage.py loaddata dump.json
 ```
 
-## С приложением ознокомиться можно перейдя по ссылке
- [<img align="left" alt="Foodgram" width="60px" src="https://github.com/Hrushon/foodgram-project-react/raw/master/frontend/public/favicon.png" />](http://foodgram.bounceme.net/)
-+ **Логин администратора**: ilia
-+ **Пароль**: Foodgram01
-
 ## Эндпоинты приложения
 
 ### Список пользователей, регистрация нового пользователя
